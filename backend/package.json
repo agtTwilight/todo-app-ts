@@ -7,6 +7,7 @@
 		"build": "rimraf dist && npx tsc",
 		"prestart": "npm run build",
 		"start": "node dist/server.js",
+		"predev": "npm run build",
 		"dev": "nodemon server.ts",
 		"lint": "eslint . --ext .ts"
 	},
