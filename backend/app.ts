@@ -1,8 +1,12 @@
 import 'dotenv/config';
 import express, { NextFunction, Request, Response } from 'express';
+import morgan from 'morgan';
 import notesRoutes from './routes/notes';
 
 const app = express();
+
+// npm package that logs all requests made to server during development
+app.use(morgan('dev'));
 
 // middleware that allows post requests to accept json bodies
 app.use(express.json());
