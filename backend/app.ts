@@ -1,20 +1,13 @@
 import 'dotenv/config';
 import express, { NextFunction, Request, Response } from 'express';
-import NoteModel from './models/note';
+import notesRoutes from './routes/notes';
 
 const app = express();
 
-app.get('/', async (req, res, next) => {
-	try {
-		const notes = await NoteModel.find({ completed: false }).exec();
+// middleware that allows post requests to accept json bodies
+app.use(express.json());
 
-		res.status(200).json(notes);
-	} catch (error) {
-		// What next is doing...
-		// next(error) tells the code that, in the event of an error in this function, run the next function with the value of error from this function. That is how we setup an error handling function (though this might not work if you have multiple routes in one file)
-		next(error);
-	}
-});
+app.use('/api/notes', notesRoutes);
 
 app.use((req, res, next) => {
 	next(Error('Endpoint not found'));
