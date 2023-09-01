@@ -1,5 +1,6 @@
 import { RequestHandler } from 'express';
 import createHttpError from 'http-errors';
+import mongoose from 'mongoose';
 import NoteModel from '../models/note';
 
 export const getNotes: RequestHandler = async (req, res, next) => {
@@ -16,13 +17,22 @@ export const getNote: RequestHandler = async (req, res, next) => {
 	const noteId = req.params.noteId;
 
 	try {
+		if (!mongoose.isValidObjectId(noteId)) {
+			throw createHttpError(400, `Invalid note id, ${noteId}`);
+		}
+
 		const note = await NoteModel.findById(noteId).exec();
+
+		if (!note) {
+			throw createHttpError(404, `Note ${noteId} not found.`);
+		}
 		res.status(200).json(note);
 	} catch (error) {
 		next(error);
 	}
 };
 
+// type safety for created note req.body:
 interface CreateNoteBody {
 	title?: string;
 	text?: string;
