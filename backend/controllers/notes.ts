@@ -1,7 +1,7 @@
-import { RequestHandler } from 'express';
-import createHttpError from 'http-errors';
-import mongoose from 'mongoose';
-import NoteModel from '../models/note';
+import { RequestHandler } from "express";
+import createHttpError from "http-errors";
+import mongoose from "mongoose";
+import NoteModel from "../models/note";
 
 export const getNotes: RequestHandler = async (req, res, next) => {
 	try {
@@ -49,7 +49,7 @@ export const createNote: RequestHandler<
 	const priority = req.body.priority;
 
 	try {
-		if (!title) throw createHttpError(400, 'Notes must have a title');
+		if (!title) throw createHttpError(400, "Notes must have a title");
 
 		const newNote = await NoteModel.create({
 			title,
